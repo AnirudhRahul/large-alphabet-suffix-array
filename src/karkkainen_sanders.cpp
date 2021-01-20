@@ -52,7 +52,7 @@ int assign_names(int *s, int *names, int *p12, int n12) {
     int lex_name = 0, prev[3] = {-1, -1, -1};
     for (int i = 0; i < n12; ++i) {
         int *curr = &s[p12[i]];
-        if (lt(prev[0], curr[0], prev[1], curr[1], prev[2], curr[2]))
+        if (lt_arr(prev, curr))
             lex_name++;
         memcpy(prev, curr, int_size * 3);
         names[i] = lex_name;
@@ -74,8 +74,7 @@ void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
 
     // Assign names to triples in groups 1 and 2
     int* names = new int[n12];
-    int name_count;
-    name_count = assign_names(s, names, p12, n12);
+    int name_count = assign_names(s, names, p12, n12);
 
     // We now proceed to find the relative order of suffixes in groups 1 and 2
     int* sa12 = new int[n12 + 2];
