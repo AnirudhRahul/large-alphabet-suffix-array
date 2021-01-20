@@ -73,8 +73,6 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // Get the indices of elements in group 0, and in groups 1 and 2
     int* p12 = new int[n12];
-    memset(p12, 0, int_size * n12);
-
     for (int i = 1, j = 0; j < n12; i += i % 3, j++)
         p12[j] = i;
 
@@ -83,8 +81,6 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // Assign names to triples in groups 1 and 2
     int* names = new int[n12];
-    memset(names, 0, int_size * n12);
-
     int name_count = assign_names(s, names, p12, n12);
 
     // We now proceed to find the relative order of suffixes in groups 1 and 2
@@ -95,7 +91,7 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     if (name_count < n12) {
         // Initialize string s12 of size 2n/3 from the lexicographic names
         int* s12 = new int[n12 + 3];
-        memset(s12, 0, int_size * (n12+3));
+        memset(s12, 0, int_size * n12);
 
         s12[n12] = s12[n12 + 1] = s12[n12 + 2] = 0;
         for (int i = 0; i < n12; ++i)
