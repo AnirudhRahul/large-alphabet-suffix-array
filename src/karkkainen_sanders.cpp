@@ -4,17 +4,24 @@
 
 using namespace std;
 
+int int_size = sizeof(int);
+
 int fix(int p) {
-    return p - ceil(p / 3.);
+    return (2*p)/3;
+
 }
 
 bool lt(int a1, int b1, int a2, int b2, int a3, int b3) {
-    return a1 != b1 ? a1 < b1 : (a2 != b2 ? a2 < b2 : a3 < b3);
+    return a1 < b1 ? true : (a2 < b2 ? true : a3 < b3);
+}
+
+bool lt_arr(int *a, int *b) {
+    return a[0] < b[0] ? true : (a[1] < b[1] ? true : a[2] < b[2]);
 }
 
 void counting_sort(int *keys, int *a, int *b, int off, int n, int sigma) {
     int* count = new int[sigma + 1];
-    memset(count, 0, sizeof(int) * (sigma + 1));
+    memset(count, 0, int_size * (sigma + 1));
 
     for (int i = 0; i < n; ++i)
         count[keys[a[i] + off]]++;
@@ -30,14 +37,14 @@ void sort_triples(int *s, int *p12, int n12, int sigma) {
     counting_sort(s, p12, tmp, 2, n12, sigma);
     counting_sort(s, tmp, p12, 1, n12, sigma);
     counting_sort(s, p12, tmp, 0, n12, sigma);
-    memcpy(p12, tmp, sizeof(int) * n12);
+    memcpy(p12, tmp, int_size * n12);
     delete[] tmp;
 }
 
 void sort_group0(int *s, int*p0, int n0, int sigma) {
     int* tmp = new int[n0];
     counting_sort(s, p0, tmp, 0, n0, sigma);
-    memcpy(p0, tmp, sizeof(int) * n0);
+    memcpy(p0, tmp, int_size * n0);
     delete[] tmp;
 }
 
@@ -47,7 +54,7 @@ int assign_names(int *s, int *names, int *p12, int n12) {
         int *curr = &s[p12[i]];
         if (lt(prev[0], curr[0], prev[1], curr[1], prev[2], curr[2]))
             lex_name++;
-        memcpy(prev, curr, sizeof(int) * 3);
+        memcpy(prev, curr, int_size * 3);
         names[i] = lex_name;
     }
     return lex_name;
