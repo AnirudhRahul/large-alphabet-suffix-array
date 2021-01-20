@@ -12,11 +12,11 @@ int fix(int p) {
 }
 
 bool lt(int a1, int b1, int a2, int b2, int a3, int b3) {
-    return a1 < b1 ? true : (a2 < b2 ? true : a3 < b3);
+    return a1 != b1 ? a1 < b1 : (a2 != b2 ? a2 < b2 : a3 < b3);
 }
 
 bool lt_arr(int *a, int *b) {
-    return a[0] < b[0] ? true : (a[1] < b[1] ? true : a[2] < b[2]);
+    return a[0] != b[0] ? a[0] < b[0] : (a[1] != b[1] ? a[1] < b[1] : a[2] < b[2]);
 }
 
 void counting_sort(int *keys, int *a, int *b, int off, int n, int sigma) {
