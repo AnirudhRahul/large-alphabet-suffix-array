@@ -1,5 +1,6 @@
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 #include "karkkainen_sanders.hpp"
 
 using namespace std;
@@ -8,7 +9,6 @@ int int_size = sizeof(int);
 
 int fix(int p) {
     return (2*p)/3;
-
 }
 
 bool lt(int a1, int b1, int a2, int b2, int a3, int b3) {
@@ -32,20 +32,27 @@ void counting_sort(int *keys, int *a, int *b, int off, int n, int sigma) {
     delete[] count;
 }
 
-void sort_triples(int *s, int *p12, int n12, int sigma) {
+int* sort_triples(int *s, int *p12, int n12, int sigma) {
     int* tmp = new int[n12];
+    memset(tmp, 0, int_size * n12);
+
     counting_sort(s, p12, tmp, 2, n12, sigma);
     counting_sort(s, tmp, p12, 1, n12, sigma);
     counting_sort(s, p12, tmp, 0, n12, sigma);
-    memcpy(p12, tmp, int_size * n12);
-    delete[] tmp;
+
+    delete[] p12;
+    // should be assigned to p12
+    return tmp;
 }
 
-void sort_group0(int *s, int*p0, int n0, int sigma) {
+int* sort_group0(int *s, int *p0, int n0, int sigma) {
     int* tmp = new int[n0];
+    memset(tmp, 0, int_size * n0);
+
     counting_sort(s, p0, tmp, 0, n0, sigma);
-    memcpy(p0, tmp, int_size * n0);
-    delete[] tmp;
+    delete[] p0;
+    // should be assigned to p0
+    return tmp;
 }
 
 int assign_names(int *s, int *names, int *p12, int n12) {
@@ -66,14 +73,18 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // Get the indices of elements in group 0, and in groups 1 and 2
     int* p12 = new int[n12];
+    memset(p12, 0, int_size * n12);
+
     for (int i = 1, j = 0; j < n12; i += i % 3, j++)
         p12[j] = i;
 
     // Sort triples of groups 1 and 2
-    sort_triples(s, p12, n12, sigma);
+    p12 = sort_triples(s, p12, n12, sigma);
 
     // Assign names to triples in groups 1 and 2
     int* names = new int[n12];
+    memset(names, 0, int_size * n12);
+
     int name_count = assign_names(s, names, p12, n12);
 
     // We now proceed to find the relative order of suffixes in groups 1 and 2
@@ -84,6 +95,8 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     if (name_count < n12) {
         // Initialize string s12 of size 2n/3 from the lexicographic names
         int* s12 = new int[n12 + 3];
+        memset(s12, 0, int_size * (n12+3));
+
         s12[n12] = s12[n12 + 1] = s12[n12 + 2] = 0;
         for (int i = 0; i < n12; ++i)
             s12[p12[i] / 3 + (p12[i] % 3 == 1 ? 0 : n1)] = names[i];
@@ -98,6 +111,7 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     }
     else{
       sa12 = new int[n12];
+      memset(sa12, 0, int_size * n12);
       delete[] names;
     }
 
@@ -107,13 +121,14 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // Next step is sorting the suffixes in group 0
     int* p0 = new int[n0];
+    memset(p0, 0, int_size * n0);
 
     // Order in S(i+1) is implicit from sa12
     for (int i = 0, j = 0; j < n0; ++i) if (p12[i] % 3 == 1)
         p0[j++] = p12[i] - 1;
 
     // Sort suffixes in group 0
-    sort_group0(s, p0, n0, sigma);
+    p0 = sort_group0(s, p0, n0, sigma);
 
     // We now proceed for the merge step
     int i = 0, i0 = 0, i12 = (n % 3 == 1 ? 1 : 0);
@@ -137,6 +152,7 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // Copy the remaining suffixes
     for (;  i0 <  n0;  ++i0) sa[i++] =  p0[ i0];
+    // std::copy(p0+i0+1,po+n0, sa+i);
     delete[] p0;
     for (; i12 < n12; ++i12) sa[i++] = p12[i12];
     delete[] p12;
