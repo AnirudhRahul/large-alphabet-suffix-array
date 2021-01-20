@@ -85,14 +85,12 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // We now proceed to find the relative order of suffixes in groups 1 and 2
     int* sa12;
-    // sa12[n12] = sa12[n12 + 1] = -1;
 
     // If names are not all distinct, find their sorted order recursively
     if (name_count < n12) {
         // Initialize string s12 of size 2n/3 from the lexicographic names
         int* s12 = new int[n12 + 3];
         memset(s12, 0, int_size * n12);
-
         s12[n12] = s12[n12 + 1] = s12[n12 + 2] = 0;
         for (int i = 0; i < n12; ++i)
             s12[p12[i] / 3 + (p12[i] % 3 == 1 ? 0 : n1)] = names[i];
