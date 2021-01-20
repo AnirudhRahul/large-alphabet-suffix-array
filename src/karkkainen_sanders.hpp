@@ -8,7 +8,6 @@ int fix(int p);
 void sort_triples(int *s, int *p12, int n12, int sigma);
 void sort_group0(int *s, int*p0, int n0, int sigma);
 int assign_names(int *s, int *names, int *p12, int n12);
-void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma_size);
+int* karkkainen_sanders_sa(int *s, int n, int sigma_size);
 
 #endif
-

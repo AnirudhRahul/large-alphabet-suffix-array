@@ -16,15 +16,18 @@ int main() {
     int k = 70000000;
     int* s = new int[n+3];
     for(int i=0; i<n; ++i){
-      s[i]=k-i;
+      // if(i>n/2)
+      //   s[i]=i;
+      // else
+        s[i]=k-i;
     }
 
     // int s[] = {2,2,2,2,2,0,0,0};
     // int n = 5;
     // int k = 2;
-    int* sa = new int[n];
+    int* sa = karkkainen_sanders_sa(s, n, k);
 
-    karkkainen_sanders_sa(s, sa, n, k);
+
     delete[] s;
     for (int i = n-100; i < n; ++i)
         cout << sa[i] << " ";

@@ -60,7 +60,7 @@ int assign_names(int *s, int *names, int *p12, int n12) {
     return lex_name;
 }
 
-void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
+int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     int n0 = (n + 2) / 3, n1 = n0, n2 = n / 3;
     int n12 = n1 + n2;
 
@@ -77,8 +77,8 @@ void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
     int name_count = assign_names(s, names, p12, n12);
 
     // We now proceed to find the relative order of suffixes in groups 1 and 2
-    int* sa12 = new int[n12 + 2];
-    sa12[n12] = sa12[n12 + 1] = -1;
+    int* sa12;
+    // sa12[n12] = sa12[n12 + 1] = -1;
 
     // If names are not all distinct, find their sorted order recursively
     if (name_count < n12) {
@@ -89,7 +89,7 @@ void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
             s12[p12[i] / 3 + (p12[i] % 3 == 1 ? 0 : n1)] = names[i];
         delete[] names;
         // Call the function recursively on s12
-        karkkainen_sanders_sa(s12, sa12, n12, name_count);
+        sa12 = karkkainen_sanders_sa(s12, n12, name_count);
         delete[] s12;
 
         // Get sorted order of groups 1 and 2 from the suffix array of s12
@@ -97,6 +97,7 @@ void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
             p12[i] = (sa12[i] < n1 ? 1 + 3 * sa12[i] : 2 + 3 * (sa12[i] - n1));
     }
     else{
+      sa12 = new int[n12];
       delete[] names;
     }
 
@@ -117,6 +118,7 @@ void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
     // We now proceed for the merge step
     int i = 0, i0 = 0, i12 = (n % 3 == 1 ? 1 : 0);
     int a1=-1, a2=-1, a3=-1, b1=-1, b2=-1, b3=-1;
+    int* sa = new int[n];
     // Compare suffixes in group 0 against groups 1 and 2
     while (i0 < n0 && i12 < n12) {
         // Comparison to suffix in group 1
@@ -138,4 +140,5 @@ void karkkainen_sanders_sa(int *s, int *sa, int n, int sigma) {
     delete[] p0;
     for (; i12 < n12; ++i12) sa[i++] = p12[i12];
     delete[] p12;
+    return sa;
 }
