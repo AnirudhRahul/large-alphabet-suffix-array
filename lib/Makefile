@@ -22,7 +22,7 @@ GTEST_DIR = ./gtest
 CPPFLAGS += -isystem $(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra -pthread
+CXXFLAGS += -g -Wall -Wextra -pthread -O3
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -59,4 +59,3 @@ gtest.a : gtest-all.o
 
 gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
-
