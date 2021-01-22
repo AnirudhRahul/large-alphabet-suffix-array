@@ -29,6 +29,7 @@ void counting_sort(int *keys, int *a, int *b, int off, int n, int sigma) {
         sum += count[d], count[d] = sum - count[d];
     for (int i = 0; i < n; ++i)
         b[count[keys[a[i] + off]]++] = a[i];
+
     delete[] count;
 }
 
@@ -104,9 +105,9 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
             p12[i] = (sa12[i] < n1 ? 1 + 3 * sa12[i] : 2 + 3 * (sa12[i] - n1));
     }
     else{
+      delete[] names;
       sa12 = new int[n12];
       memset(sa12, 0, int_size * n12);
-      delete[] names;
     }
 
     // Assign sa12 from the sorted order of suffixes
@@ -118,7 +119,8 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     memset(p0, 0, int_size * n0);
 
     // Order in S(i+1) is implicit from sa12
-    for (int i = 0, j = 0; j < n0; ++i) if (p12[i] % 3 == 1)
+    for (int i = 0, j = 0; j < n0; ++i)
+      if (p12[i] % 3 == 1)
         p0[j++] = p12[i] - 1;
 
     // Sort suffixes in group 0
