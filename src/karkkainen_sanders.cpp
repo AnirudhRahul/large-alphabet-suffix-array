@@ -67,6 +67,13 @@ int assign_names(int *s, int *names, int *p12, int n12) {
     return lex_name;
 }
 
+/*
+Time Complexity: O(n + sigma)
+Additional Space Complexity: O(3n + sigma)
+s is the input array with values in the range [1, sigma]
+n is the length of your input array exlcuding extra 0's for padding
+sigma is the max value in s
+*/
 int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     int n0 = (n + 2) / 3, n1 = n0, n2 = n / 3;
     int n12 = n1 + n2;
