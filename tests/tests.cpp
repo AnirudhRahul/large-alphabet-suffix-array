@@ -95,6 +95,24 @@ TEST_F(KarkkainenSandersTest, SuffixArray) {
     int* sa_ = karkkainen_sanders_sa(S_, n_, sigma_);
     for (int i = 0; i < n_; ++i)
         EXPECT_EQ(expected_sa_[i], sa_[i]);
+
+    // mississipi test
+    int expected2[] = {10, 7, 4, 1, 0, 9, 8, 6, 3, 5, 2};
+    // Input must be padded with 3 zeros
+    int input2[] = {13, 9, 19, 19, 9, 19, 19, 9, 16, 16, 9, 0, 0, 0};
+    int* sa2 = karkkainen_sanders_sa(input2, 11, 20);
+    for (int i = 0; i < 11; ++i)
+        EXPECT_EQ(expected2[i], sa2[i]);
+
+    // fvsqonheyowqeorycdavtnliyqakzcue test
+    int expected3[] = {26, 18, 16, 29, 17, 31, 12, 7, 0, 6, 23, 27, 22, 5, 21, 4, 13, 9, 25, 11, 3, 14, 2, 20, 30, 1, 19, 10, 15, 8, 24, 28};
+    // Input must be padded with 3 zeros
+    int input3[] = {6, 22, 19, 17, 15, 14, 8, 5, 25, 15, 23, 17, 5, 15, 18, 25, 3, 4, 1, 22, 20, 14, 12, 9, 25, 17, 1, 11, 26, 3, 21, 5, 0, 0, 0};
+    int* sa3 = karkkainen_sanders_sa(input3, 32, 35);
+    for (int i = 0; i < 32; ++i)
+        EXPECT_EQ(expected3[i], sa3[i]);
+
+
 }
 
 class KarkkainenSandersTest2 : public testing::Test {
