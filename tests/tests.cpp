@@ -58,17 +58,17 @@ class KarkkainenSandersTest : public testing::Test {
 };
 
 TEST_F(KarkkainenSandersTest, TripleSorting) {
-    sort_triples(S, p12, n12, sigma);
+    p12 = sort_triples(S, p12, n12, sigma);
     ASSERT_EQ(true, is_sorted(S, p12, n12));
 
-    sort_triples(S_, p12_, n12_, sigma_);
+    p12_ = sort_triples(S_, p12_, n12_, sigma_);
     ASSERT_EQ(true, is_sorted(S_, p12_, n12_));
 }
 
 TEST_F(KarkkainenSandersTest, AssignNames) {
     int expected_names[] = {3, 3, 2, 1, 5, 5, 4};
     int names[n12];
-    sort_triples(S, p12, n12, sigma);
+    p12 = sort_triples(S, p12, n12, sigma);
     assign_names(S, names, p12, n12);
     for (int i = 0; i < n12; ++i)
         if (p12[i] % 3 == 1)
@@ -77,7 +77,7 @@ TEST_F(KarkkainenSandersTest, AssignNames) {
 
     int expected_names_[] = {2,1,2};
     int names_[n12_];
-    sort_triples(S_, p12_, n12_, sigma_);
+    p12_ = sort_triples(S_, p12_, n12_, sigma_);
     assign_names(S_, names_, p12_, n12_);
     for (int i = 0; i < n12_; ++i)
         if (p12_[i] % 3 == 1)
@@ -87,14 +87,12 @@ TEST_F(KarkkainenSandersTest, AssignNames) {
 
 TEST_F(KarkkainenSandersTest, SuffixArray) {
     int expected_sa[] = {10,7,4,1,0,9,8,6,3,5,2};
-    int sa[n];
-    karkkainen_sanders_sa(S, sa, n, sigma);
+    int* sa = karkkainen_sanders_sa(S, n, sigma);
     for (int i = 0; i < n; ++i)
         EXPECT_EQ(expected_sa[i], sa[i]);
 
     int expected_sa_[] = {4,3,2,1,0};
-    int sa_[n];
-    karkkainen_sanders_sa(S_, sa_, n_, sigma_);
+    int* sa_ = karkkainen_sanders_sa(S_, n_, sigma_);
     for (int i = 0; i < n_; ++i)
         EXPECT_EQ(expected_sa_[i], sa_[i]);
 }
@@ -123,7 +121,7 @@ class KarkkainenSandersTest2 : public testing::Test {
 };
 
 TEST_F(KarkkainenSandersTest2, TripleSorting) {
-    sort_triples(S, p12, n12, sigma);
+    p12 = sort_triples(S, p12, n12, sigma);
     ASSERT_EQ(true, is_sorted(S, p12, n12));
 }
 
@@ -131,7 +129,7 @@ TEST_F(KarkkainenSandersTest2, TripleSorting) {
 TEST_F(KarkkainenSandersTest2, AssignNames) {
     int expected_names[] = {3,5,1,2,4};
     int names[n12];
-    sort_triples(S, p12, n12, sigma);
+    p12 = sort_triples(S, p12, n12, sigma);
     assign_names(S, names, p12, n12);
     for (int i = 0; i < n12; ++i)
         if (p12[i] % 3 == 1)
@@ -143,8 +141,7 @@ TEST_F(KarkkainenSandersTest2, AssignNames) {
 
 TEST_F(KarkkainenSandersTest2, SuffixArray) {
     int expected_sa[] = {3,2,1,0,6,5,4};
-    int sa[n];
-    karkkainen_sanders_sa(S, sa, n, sigma);
+    int* sa = karkkainen_sanders_sa(S, n, sigma);
     for (int i = 0; i < n; ++i)
         EXPECT_EQ(expected_sa[i], sa[i]);
 }
