@@ -129,7 +129,8 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     // We now proceed for the merge step
     int i = 0, i0 = 0, i12 = (n % 3 == 1 ? 1 : 0);
     int a1=-1, a2=-1, a3=-1, b1=-1, b2=-1, b3=-1;
-    int* sa = new int[n];
+    int* sa = new int[n+3];
+    sa[n] = sa[n+1] = sa[n+2] = -1;
     // Compare suffixes in group 0 against groups 1 and 2
     while (i0 < n0 && i12 < n12) {
         // Comparison to suffix in group 1
