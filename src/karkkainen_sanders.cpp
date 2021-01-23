@@ -1,6 +1,5 @@
 #include <cstring>
 #include <cmath>
-#include <algorithm>
 #include "karkkainen_sanders.hpp"
 
 using namespace std;
@@ -116,7 +115,7 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
 
     // Next step is sorting the suffixes in group 0
     int* p0 = new int[n0];
-    memset(p0, 0, int_size * n0);
+    // memset(p0, 0, int_size * n0);
 
     // Order in S(i+1) is implicit from sa12
     for (int i = 0, j = 0; j < n0; ++i)
@@ -148,10 +147,11 @@ int* karkkainen_sanders_sa(int *s, int n, int sigma) {
     delete[] sa12;
 
     // Copy the remaining suffixes
-    for (;  i0 <  n0;  ++i0) sa[i++] =  p0[ i0];
-    // std::copy(p0+i0+1,po+n0, sa+i);
+    // for (;  i0 <  n0;  ++i0) sa[i++] =  p0[ i0];
+    memcpy(sa + i, p0 + i0, int_size*(n0-i0));
     delete[] p0;
-    for (; i12 < n12; ++i12) sa[i++] = p12[i12];
+    // for (; i12 < n12; ++i12) sa[i++] = p12[i12];
+    memcpy(sa + i, p12 + i12, int_size*(n12-i12));
     delete[] p12;
     return sa;
 }
